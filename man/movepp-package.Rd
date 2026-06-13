@@ -42,13 +42,13 @@ Site Fidelity Index (\code{\link[=compute_isfi]{compute_isfi()}}).
 
 Worked articles reproducing each figure of the accompanying paper are
 on the package website
-(\url{https://EverTSZ.github.io/movepp/articles/}).
+(\url{https://evertsz.github.io/movepp/articles/}).
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://github.com/EverTSZ/movepp}
-  \item \url{https://EverTSZ.github.io/movepp}
+  \item \url{https://evertsz.github.io/movepp/}
   \item Report bugs at \url{https://github.com/EverTSZ/movepp/issues}
 }
 

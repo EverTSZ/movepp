@@ -35,7 +35,7 @@
 #'
 #' Worked articles reproducing each figure of the accompanying paper are
 #' on the package website
-#' (\url{https://EverTSZ.github.io/movepp/articles/}).
+#' (\url{https://evertsz.github.io/movepp/articles/}).
 #'
 #' @keywords internal
 "_PACKAGE"

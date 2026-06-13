@@ -18,7 +18,7 @@ Authors@R: c(
 Description: A hierarchical spatiotemporal point-pattern framework for analyzing animal tracking data. Provides tools for movement-state segmentation (behaviorally-anchored Local Moran), temporary habitat delineation (DBSCAN at a behaviorally-derived spatial scale), migration phase identification (a data-driven Migration Phase Index with density-valley phase classification), nest detection (stratified spatiotemporal DBSCAN), site fidelity quantification, and circadian rhythm analysis.
 License: MIT + file LICENSE
 URL: https://github.com/EverTSZ/movepp,
-    https://EverTSZ.github.io/movepp
+    https://evertsz.github.io/movepp/
 BugReports: https://github.com/EverTSZ/movepp/issues
 Encoding: UTF-8
 Language: en-US
@@ -39,7 +39,6 @@ Suggests:
     shiny,
     miniUI,
     plotly,
-    nestR,
     FSA,
     testthat (>= 3.0.0),
     knitr,
@@ -50,7 +49,7 @@ Suggests:
     rnaturalearth,
     rnaturalearthdata,
     htmltools
-Remotes:
+Config/Needs/website:
     picardis/nestR
 Roxygen: list(markdown = TRUE)
 Config/testthat/edition: 3

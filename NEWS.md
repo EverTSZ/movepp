@@ -5,7 +5,7 @@
   download basemaps (`rnaturalearth`) and use a GitHub-only dependency
   (`nestR`), so they cannot be rebuilt on a clean machine without
   internet; as articles they are rendered only for the package website
-  (<https://EverTSZ.github.io/movepp/articles/>), keeping `R CMD check`
+  (<https://evertsz.github.io/movepp/articles/>), keeping `R CMD check`
   self-contained. `VignetteBuilder` is dropped accordingly.
 * Documentation now follows the manuscript's pipeline framing (from
   fixes to movement states, to functional places, to reading time-marks

@@ -73,7 +73,7 @@ resulting spatial point pattern. The workflow runs as a single pipeline
 — from raw fixes, to movement states, to functional places, and finally
 reading the time-marks back onto those places — with each stage walked
 through in a worked article on the
-[package website](https://EverTSZ.github.io/movepp/articles/):
+[package website](https://evertsz.github.io/movepp/articles/):
 
 | Stage | Functions | What it does |
 |-------|-----------|--------------|
