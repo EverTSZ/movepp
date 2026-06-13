@@ -33,6 +33,7 @@ navbar:
   right:
     - icon: fa-github
       href: https://github.com/EverTSZ/movepp
+      aria-label: GitHub
 
 reference:
   - title: "From fixes to movement states"
@@ -47,6 +48,7 @@ reference:
       - detect_habitat_params
       - dbscan_habitats
       - detect_dominant_axis
+      - print.movepp_dominant_axis
       - compute_mpi
       - classify_phases
       - annotate_phases
