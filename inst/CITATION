@@ -1,0 +1,40 @@
+citHeader("To cite movepp in publications, please cite both the software package and the accompanying paper:")
+
+bibentry(
+  bibtype  = "Manual",
+  title    = "{movepp}: Movement Point-Pattern Analysis for Animal Tracking Data",
+  author   = c(
+    person("Hengjun",  "Xiao"),
+    person("Tomohiro", "Ichinose"),
+    person("Hebo",     "Peng"),
+    person("Zhengwang","Zhang"),
+    person("De",       "Chen"),
+    person("Weipan",   "Lei"),
+    person("Yang",     "Wu"),
+    person("Bingrun",  "Zhu"),
+    person("Yoshiaki", "Miyamoto"),
+    person("Donglai",  "Li")
+  ),
+  year     = "2026",
+  note     = sprintf("R package version %s", meta$Version),
+  url      = "https://github.com/EverTSZ/movepp"
+)
+
+bibentry(
+  bibtype  = "Article",
+  title    = "From Movement to Meaning: Spatial Statistics Uncover Hidden Patterns in Tracking Data",
+  author   = c(
+    person("Hengjun",  "Xiao"),
+    person("Hebo",     "Peng"),
+    person("Zhengwang","Zhang"),
+    person("De",       "Chen"),
+    person("Weipan",   "Lei"),
+    person("Yang",     "Wu"),
+    person("Bingrun",  "Zhu"),
+    person("Yoshiaki", "Miyamoto"),
+    person("Donglai",  "Li"),
+    person("Tomohiro", "Ichinose")
+  ),
+  year     = "in revision",
+  journal  = "Movement Ecology"
+)

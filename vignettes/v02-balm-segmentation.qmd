@@ -1,0 +1,159 @@
+---
+title: "Movement-State Segmentation with BALM"
+format:
+  html:
+    embed-resources: true
+    toc: true
+    code-fold: false
+vignette: >
+  %\VignetteIndexEntry{Movement-State Segmentation with BALM}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 7, fig.height = 5)
+```
+
+## Overview
+
+`balm_segmentation()` classifies each tracking fix into a movement state
+using **BALM** (Behaviorally-Anchored Local Moran), a movement-adapted
+variant of the Local Moran scatterplot. It uses only point locations and a
+movement-rate mark -- never direction or the raw temporal sequence -- so it
+is invariant to fix ordering and robust to sampling-rate heterogeneity.
+
+Each fix is labelled by the signs of its deviation from a behavioral
+reference `c` (the migratory-flight onset) and its spatial lag:
+
+- **HH** -- fast fix among fast neighbours -> active migration
+- **LL** -- slow fix among slow neighbours -> stationary site
+- **HL** -- fast fix among slow neighbours -> local movement within a site (commuting / foraging burst)
+- **LH** -- slow fix among fast neighbours -> brief touch-down in the migratory corridor (transient stopover)
+
+Two choices distinguish BALM from the textbook Local Moran: the high/low
+reference is a **data-driven behavioral threshold** (the flight-onset
+speed) rather than the arithmetic mean, and classification is
+**deterministic** (no permutation significance) -- spatial support is
+arbitrated downstream by density clustering (`dbscan_habitats()`).
+
+## Setup
+
+```{r}
+library(movepp)
+library(sf)
+library(ggplot2)
+data(godwit_demo)
+```
+
+## Movement rate
+
+```{r}
+godwit <- compute_step_speed(godwit_demo,
+                             time_col       = "time",
+                             individual_col = "individual",
+                             direction      = "centered")
+```
+
+## Segmentation
+
+```{r}
+seg <- balm_segmentation(godwit,
+                         variable_col   = "step_speed",
+                         individual_col = "individual",
+                         verbose        = FALSE)
+table(seg$cluster_type, useNA = "ifany")
+attr(seg, "balm_reference")   # flight-onset reference c (km/h)
+```
+
+## Where the high/low reference comes from
+
+The reference `c` is the **flight-onset speed** -- detected as the left
+foot of the right-most peak of the (log) step-speed density, i.e. the
+boundary between site-level movement and migratory flight.
+
+```{r ref-plot, fig.width=7, fig.height=4}
+ref <- attr(seg, "balm_reference")[[1]]
+spd <- godwit$step_speed[is.finite(godwit$step_speed) & godwit$step_speed > 0]
+
+ggplot(data.frame(spd = spd), aes(spd)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 50,
+                 fill = "grey85", colour = "white", linewidth = 0.2) +
+  geom_vline(xintercept = ref, colour = "#D7191C", linewidth = 1) +
+  scale_x_log10() +
+  labs(x = "step speed (km/h, log scale)", y = "density",
+       title = sprintf("Behavioral reference: flight onset c = %.1f km/h", ref),
+       subtitle = "Red line separates site-level movement from migratory flight") +
+  theme_minimal(base_size = 12)
+```
+
+## The BALM Moran scatterplot
+
+Each fix is placed by its own deviation `x - c` (x-axis) against the mean
+deviation of its spatial neighbours (y-axis); the four quadrants are the
+four movement states.
+
+```{r scatter, fig.width=6.5, fig.height=5}
+cluster_pal <- c(HH = "#F0B8B1", LL = "#99D0E8", HL = "#E01B1B", LH = "#1B53E0")
+
+ggplot(sf::st_drop_geometry(seg),
+       aes(balm_deviation, balm_lag, colour = cluster_type)) +
+  geom_hline(yintercept = 0, colour = "grey70") +
+  geom_vline(xintercept = 0, colour = "grey70") +
+  geom_point(alpha = 0.5, size = 0.7) +
+  scale_colour_manual(values = cluster_pal, name = "state", na.translate = FALSE) +
+  guides(colour = guide_legend(override.aes = list(size = 3, alpha = 1))) +
+  labs(x = "deviation from flight onset  (x - c)",
+       y = "spatial lag  (mean neighbour deviation)",
+       title = "BALM Moran scatterplot") +
+  theme_minimal(base_size = 12)
+```
+
+## Spatial result
+
+```{r map, fig.width=6.5, fig.height=7}
+world <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
+bb    <- sf::st_bbox(seg)
+padx  <- as.numeric(bb["xmax"] - bb["xmin"]) * 0.10
+pady  <- as.numeric(bb["ymax"] - bb["ymin"]) * 0.10
+
+ggplot() +
+  geom_sf(data = world, fill = "grey96", colour = "grey80", linewidth = 0.2) +
+  geom_sf(data = seg, aes(colour = cluster_type), size = 0.7, alpha = 0.8) +
+  scale_colour_manual(values = cluster_pal, name = "state", na.translate = FALSE) +
+  coord_sf(xlim = c(bb["xmin"] - padx, bb["xmax"] + padx),
+           ylim = c(bb["ymin"] - pady, bb["ymax"] + pady), expand = FALSE) +
+  guides(colour = guide_legend(override.aes = list(size = 3))) +
+  labs(title = "Movement states across geographic space") +
+  theme_minimal(base_size = 12)
+```
+
+## Stationary subset for downstream analysis
+
+The `LL` (stationary cores) and `LH` (transient stopovers) fixes are the
+input to spatial habitat delineation:
+
+```{r}
+stationary <- seg[!is.na(seg$cluster_type) &
+                  seg$cluster_type %in% c("LL", "LH"), ]
+nrow(stationary)
+```
+
+## Discussion
+
+BALM asks "is this fix part of a spatial cluster of high (or low) movement
+rate", using spatial structure alone. The behavioral signature of
+migration -- fast, transient passage -- manifests spatially as high-rate
+fixes in sparse corridors (`HH`), whereas fast movements confined to a site
+appear as `HL` outliers; no explicit measure of direction is required.
+
+## See also
+
+- `vignette("v01-data-overview")` -- full workflow
+- `vignette("v03-dbscan-habitats")` -- downstream clustering of LL/LH points
+
+## Session info
+
+```{r session-info}
+sessionInfo()
+```

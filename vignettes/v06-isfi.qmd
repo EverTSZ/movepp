@@ -1,0 +1,175 @@
+---
+title: "Inter-Annual Site Fidelity (ISFI)"
+format:
+  html:
+    embed-resources: true
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Inter-Annual Site Fidelity (ISFI)}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>",
+                      fig.width = 7, fig.height = 5)
+```
+
+# Overview
+
+`compute_isfi()` quantifies how often an individual returns to the
+same temporary habitat (or nest) across years:
+
+$$
+\text{ISFI} = \frac{\sum_i n_{i,\text{years}} - n}{(c - 1) \cdot n}
+$$
+
+where `n` is unique clusters, `c` is unique years, and
+`n_{i,years}` is the number of years cluster `i` was visited.
+ISFI ranges from 0 (no fidelity) to 1 (every cluster revisited every
+year).
+
+A single overall ISFI averaged across an entire annual cycle is
+biologically uninformative: a bird may be highly faithful to its
+wintering grounds but choose different stopover sites each year.
+The recommended workflow is therefore to **stratify ISFI by life-
+history phase**, exposing where in the cycle fidelity is strongest.
+
+# Setup
+
+```{r}
+library(movepp)
+library(sf)
+library(ggplot2)
+```
+
+# Build phase-labelled habitats
+
+We feed `godwit_demo` through the full macro-meso pipeline
+(step-speed → BALM segmentation → DBSCAN → MPI → density-valley
+phase classification) to obtain a set of temporary habitats each
+labelled with a life-history phase:
+
+```{r}
+data("godwit_demo")
+
+godwit <- compute_step_speed(godwit_demo,
+                              time_col       = "time",
+                              individual_col = "individual",
+                              direction      = "centered")
+
+seg <- balm_segmentation(godwit,
+                          variable_col    = "step_speed",
+                          individual_col  = "individual",
+                          verbose         = FALSE)
+
+stationary   <- seg[!is.na(seg$cluster_type) & seg$cluster_type %in% c("LL", "LH"), ]
+p    <- detect_habitat_params(stationary, track = seg,
+                              individual_col = "individual", time_col = "time")
+hab  <- dbscan_habitats(stationary,
+                        individual_col = "individual",
+                        eps = p$eps, minPts = p$minPts)
+mpi  <- compute_mpi(hab, individual_col = "individual",
+                    time_col = "time", verbose = FALSE)
+phs  <- classify_phases(mpi, n_phases = 3, individual_col = "individual")
+```
+
+`classify_phases()` returns phase labels ordered by ascending
+mean MPI. We remap these to biologically meaningful names:
+
+```{r}
+ph_df    <- sf::st_drop_geometry(phs)
+ph_order <- names(sort(tapply(ph_df$mpi, ph_df$phase, mean, na.rm = TRUE)))
+phase_map <- setNames(c("wintering", "stopover", "breeding"), ph_order)
+phs$phase_named <- factor(phase_map[as.character(phs$phase)],
+                          levels = c("wintering", "stopover", "breeding"))
+
+table(phs$phase_named, useNA = "ifany")
+```
+
+# Per-phase ISFI
+
+`compute_isfi()` with `phase_col` returns one row per
+(individual, phase) combination — exactly the breakdown needed for
+biological interpretation:
+
+```{r}
+isfi_by_phase <- compute_isfi(phs,
+                               time_col       = "time",
+                               individual_col = "individual",
+                               cluster_col    = "cluster_id",
+                               phase_col      = "phase_named")
+print(isfi_by_phase)
+```
+
+# Fidelity heatmap
+
+A compact way to read the per-phase fidelities is a heatmap: one
+column per individual, one row per phase ordered **Breeding (top) →
+Stopover → Wintering (bottom)**, so the breeding-ground fidelity sits
+at the top. The demo carries a **single** individual, so the map is
+one column wide; on the full nine-individual dataset each bird adds a
+column, making between-individual differences immediately legible.
+
+```{r}
+#| fig-width: 10
+#| fig-height: 5
+#| fig-cap: "Inter-annual site fidelity by life-history phase. Warm = high fidelity, cool = low."
+phase_order <- c("wintering", "stopover", "breeding")   # bottom -> top
+hm <- isfi_by_phase
+hm$phase      <- factor(hm$phase, levels = phase_order)
+hm$individual <- factor(hm$individual)
+
+ggplot(hm, aes(individual, phase, fill = isfi)) +
+  geom_tile(colour = "white", linewidth = 0.4) +
+  geom_text(aes(label = ifelse(is.na(isfi), "", sprintf("%.2f", isfi))),
+            size = 3.4, colour = "grey15") +
+  scale_fill_distiller(name = "fidelity", palette = "RdYlBu", direction = -1,
+                       limits = c(0, 1), breaks = c(0, 0.5, 1),
+                       labels = c("0.0 (Low)", "0.5 (Mid)", "1.0 (High)"),
+                       na.value = "grey88") +
+  labs(x = "individual", y = NULL,
+       title = "Site fidelity by phase") +
+  theme_minimal(base_size = 12) +
+  theme(panel.grid = element_blank(),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+```
+
+# Interpretation
+
+Black-tailed Godwits are long-distance migrants with strong site
+fidelity. The expected pattern across phases:
+
+- **Breeding** — highest ISFI; godwits return to the same nesting
+  territory year after year.
+- **Wintering** — usually high; the species is faithful to specific
+  coastal mudflats and lagoons.
+- **Stopover** — most variable; choice of refuelling sites depends
+  on weather, food availability, and timing.
+
+The numerical breakdown above quantifies these patterns for this
+specific individual.
+
+# INFI: nest-level fidelity
+
+The same function applied to the output of `detect_nests()` yields
+the Individual Nest Fidelity Index:
+
+```{r eval = FALSE}
+nests <- detect_nests(breeding_pts,
+                      time_col       = "time",
+                      individual_col = "individual")$nests
+infi  <- compute_isfi(nests,
+                      time_col       = "start_time",
+                      individual_col = "individual",
+                      cluster_col    = "nest_id")
+```
+
+# See also
+
+- `vignette("v04-mpi-phases")` — phase classification (upstream)
+- `vignette("v07-st-dbscan-nesting")` — produces the input for INFI
+
+```{r}
+sessionInfo()
+```

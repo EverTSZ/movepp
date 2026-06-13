@@ -1,0 +1,204 @@
+---
+title: "Nest Detection with Stratified ST-DBSCAN"
+format:
+  html:
+    embed-resources: true
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Nest Detection with Stratified ST-DBSCAN}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>",
+                      fig.width = 7, fig.height = 5)
+```
+
+# Overview
+
+`detect_nests()` implements the **three-tier sigma-stratified
+ST-DBSCAN** algorithm of the accompanying manuscript (Eq. 10). It
+exploits the fact that GPS fixes during nesting are approximately
+bivariate-normally distributed around the true nest location:
+
+- ~95% of fixes within 2σ of the centre
+- ~68% within 1σ
+- ~38% within 0.5σ
+
+A point is classified as a nest fix only if it survives the density
+threshold at all three sigma tiers simultaneously, yielding markedly
+fewer false positives than single-tier DBSCAN.
+
+# Recover the breeding subset from the upstream pipeline
+
+Rather than hard-coding latitude or month thresholds, we reuse the
+phase classification from vignettes 01-04: the breeding-phase
+habitats are the ones with the highest mean MPI score in the phase classification
+voting output.
+
+```{r}
+library(movepp)
+library(sf)
+library(ggplot2)
+data("godwit_demo")
+
+godwit <- compute_step_speed(godwit_demo,
+                              time_col       = "time",
+                              individual_col = "individual",
+                              direction      = "centered")
+
+seg <- balm_segmentation(godwit,
+                          variable_col    = "step_speed",
+                          individual_col  = "individual",
+                          verbose         = FALSE)
+
+stationary   <- seg[!is.na(seg$cluster_type) & seg$cluster_type %in% c("LL", "LH"), ]
+p    <- detect_habitat_params(stationary, track = seg,
+                              individual_col = "individual", time_col = "time")
+hab  <- dbscan_habitats(stationary,
+                        individual_col = "individual",
+                        eps = p$eps, minPts = p$minPts)
+mpi  <- compute_mpi(hab, individual_col = "individual",
+                    time_col = "time", verbose = FALSE)
+phs  <- classify_phases(mpi, n_phases = 3, individual_col = "individual")
+
+# Map ascending-MPI phase labels to biological names
+ph_df    <- sf::st_drop_geometry(phs)
+ph_order <- names(sort(tapply(ph_df$mpi, ph_df$phase, mean, na.rm = TRUE)))
+phase_map <- setNames(c("wintering", "stopover", "breeding"), ph_order)
+phs$phase_named <- factor(phase_map[as.character(phs$phase)],
+                          levels = c("wintering", "stopover", "breeding"))
+
+breeding <- phs[!is.na(phs$phase_named) & phs$phase_named == "breeding", ]
+
+cat("Breeding-phase fixes:", nrow(breeding), "\n")
+cat("Date range:", format(range(breeding$time)), "\n")
+```
+
+# Project to a metric CRS
+
+`detect_nests()` requires coordinates in metres so that `search_dist`
+has a physical interpretation. UTM 52N covers the Vilyuy / Lena
+breeding range:
+
+```{r}
+breeding_utm <- sf::st_transform(breeding, 32652)
+```
+
+# Run detect_nests
+
+With a 3-hour sampling interval, ~30 fixes cover roughly 4 days of
+continuous nest attendance — a reasonable lower bound. `search_dist`
+is relaxed to 50 m to absorb GPS positional noise on individual
+fixes.
+
+```{r}
+res <- detect_nests(breeding_utm,
+                    time_col       = "time",
+                    individual_col = "individual",
+                    min_pts        = 30L,
+                    search_dist    = 50,
+                    time_window    = "3 weeks",
+                    verbose        = FALSE)
+
+res$nests
+```
+
+```{r}
+cat("Fixes assigned to a nest:", sum(!is.na(res$points$nest_id)), "\n")
+cat("Foraging-area fixes:     ", sum( is.na(res$points$nest_id)), "\n")
+```
+
+# Map: detected nests on the breeding grounds
+
+We transform the nest centroids and the classified fixes back to
+WGS 84 and map them over the Far East Siberian breeding range
+(60–70 °N, 90–140 °E). Nest fixes (red) form tight cores within the
+looser cloud of foraging fixes (grey); each nest centroid is labelled
+with its `nest_id`.
+
+```{r}
+#| fig-width: 7.5
+#| fig-height: 6
+#| fig-cap: "ST-DBSCAN nest detections on the Siberian breeding grounds. Red points are nest fixes, grey are foraging fixes; labels mark each nest centroid."
+world    <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
+pts_ll   <- sf::st_transform(res$points, 4326)
+pts_ll$is_nest <- !is.na(pts_ll$nest_id)
+nests_ll <- sf::st_transform(res$nests, 4326)
+nc       <- sf::st_coordinates(nests_ll)
+nests_ll$lon <- nc[, 1]; nests_ll$lat <- nc[, 2]
+
+ggplot() +
+  geom_sf(data = world, fill = "grey96", colour = "grey80", linewidth = 0.2) +
+  geom_sf(data = pts_ll, aes(colour = is_nest), size = 0.7, alpha = 0.6) +
+  geom_sf(data = nests_ll, shape = 21, fill = "#D7191C",
+          colour = "white", size = 3, stroke = 0.6) +
+  geom_text(data = nests_ll, aes(lon, lat, label = nest_id),
+            nudge_y = 0.6, nudge_x = 0.6, size = 3.4,
+            fontface = "bold", colour = "grey15") +
+  scale_colour_manual(values = c(`TRUE` = "#D7191C", `FALSE` = "grey60"),
+                      labels = c(`TRUE` = "nest fix", `FALSE` = "foraging fix"),
+                      name = NULL) +
+  coord_sf(xlim = c(90, 140), ylim = c(60, 70), expand = FALSE) +
+  guides(colour = guide_legend(override.aes = list(size = 3, alpha = 1))) +
+  labs(title = "Detected nests on the Far East Siberian breeding grounds",
+       x = NULL, y = NULL) +
+  theme_minimal(base_size = 12)
+```
+
+# Why three tiers?
+
+Default `sigma_ratios = c(1.0, 0.68, 0.38)` (paired with internal
+distance multipliers `c(1.0, 0.5, 0.25)`) follow the bivariate-normal
+geometry of GPS fixes around a true nest. The stratified test —
+density requirements satisfied at ALL three radii — sharply
+discriminates true nest fixes from loose foraging clusters that
+might satisfy a single-tier test but lack the tight inner core.
+
+# Synthetic-data illustration
+
+For a clean algorithm demonstration with known ground truth, simulate
+a nest cluster surrounded by foraging fixes:
+
+```{r eval = FALSE}
+set.seed(42)
+n_nest <- 200
+n_off  <- 100
+pts_syn <- sf::st_as_sf(data.frame(
+  lon  = c(rnorm(n_nest, 0, 3), rnorm(n_off, 0, 150)),
+  lat  = c(rnorm(n_nest, 0, 3), rnorm(n_off, 0, 150)),
+  time = seq.POSIXt(as.POSIXct("2023-05-15"),
+                    by = "1 hour", length.out = 300),
+  individual = "synthetic_bird"
+), coords = c("lon", "lat"), crs = 32633)
+
+detect_nests(pts_syn, "time", "individual",
+             min_pts = 40L, search_dist = 30,
+             time_window = "3 weeks")$nests
+```
+
+With hourly sampling and a tight 3-m cluster, the algorithm recovers
+the nest centre to sub-metre precision. On real 3-hour-interval data
+the parameters are relaxed (50 m, 30 points) to accommodate GPS
+noise and the coarser temporal grid.
+
+# Cross-validate with `nestR`
+
+```{r eval = FALSE}
+remotes::install_github("picardis/nestR")
+library(nestR)
+nestR_result <- find_nests(gps_data = your_data, buffer = 10)
+```
+
+A side-by-side accuracy comparison on labelled data is provided in
+the `paper-analyses/` companion repository.
+
+# See also
+
+- `vignette("v04-mpi-phases")` — produces the phase labels (upstream)
+- `vignette("v06-isfi")` — uses the `nests` output to compute INFI
+
+```{r}
+sessionInfo()
+```

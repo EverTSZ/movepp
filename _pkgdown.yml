@@ -1,0 +1,67 @@
+url: https://EverTSZ.github.io/movepp/
+
+template:
+  bootstrap: 5
+  bootswatch: flatly
+
+home:
+  title: "movepp - Movement Point-Pattern Analysis"
+
+navbar:
+  type: default
+  left:
+    - text: "Vignettes"
+      menu:
+        - text: "01 - Data overview"
+          href: articles/v01-data-overview.html
+        - text: "02 - BALM segmentation"
+          href: articles/v02-balm-segmentation.html
+        - text: "03 - DBSCAN habitats"
+          href: articles/v03-dbscan-habitats.html
+        - text: "04 - MPI phase classification"
+          href: articles/v04-mpi-phases.html
+        - text: "05 - Circadian rhythms"
+          href: articles/v05-circadian.html
+        - text: "06 - ISFI site fidelity"
+          href: articles/v06-isfi.html
+        - text: "07 - ST-DBSCAN nesting"
+          href: articles/v07-st-dbscan-nesting.html
+    - text: "Reference"
+      href: reference/index.html
+    - text: "News"
+      href: news/index.html
+  right:
+    - icon: fa-github
+      href: https://github.com/EverTSZ/movepp
+
+reference:
+  - title: "Macro scale: movement rate and segmentation"
+    desc: "Derive a movement rate, then segment migratory vs stationary fixes."
+    contents:
+      - compute_step_speed
+      - balm_segmentation
+
+  - title: "Meso scale: temporary habitats and phases"
+    desc: "Delineate habitats and classify wintering, stopover, breeding."
+    contents:
+      - detect_habitat_params
+      - dbscan_habitats
+      - detect_dominant_axis
+      - compute_mpi
+      - classify_phases
+      - annotate_phases
+
+  - title: "Micro scale: fine behavioural patterns"
+    desc: "Nesting events, site fidelity, circadian rhythm."
+    contents:
+      - detect_nests
+      - compute_isfi
+      - compute_solar_elevation
+      - classify_circadian
+      - classify_habitat_circadian
+
+  - title: "Utilities and data"
+    contents:
+      - make_demo_track
+      - movepp_version
+      - godwit_demo

@@ -1,0 +1,58 @@
+Package: movepp
+Type: Package
+Title: Movement Point-Pattern Analysis for Animal Tracking Data
+Version: 0.1.4
+Authors@R: c(
+    person("Hengjun", "Xiao", , "evertsz@live.com",
+           role = c("aut", "cre")),
+    person("Tomohiro", "Ichinose", , "tomohiro@sfc.keio.ac.jp",
+           role = c("aut", "ths")),
+    person("Hebo", "Peng", role = "aut"),
+    person("Zhengwang", "Zhang", role = "aut"),
+    person("De", "Chen", role = "aut"),
+    person("Weipan", "Lei", role = "aut"),
+    person("Yang", "Wu", role = "aut"),
+    person("Bingrun", "Zhu", role = "aut"),
+    person("Yoshiaki", "Miyamoto", role = "aut"),
+    person("Donglai", "Li", role = "aut"))
+Description: A hierarchical spatiotemporal point-pattern framework for analyzing animal tracking data. Provides tools for movement-state segmentation (behaviorally-anchored Local Moran), temporary habitat delineation (DBSCAN at a behaviorally-derived spatial scale), migration phase identification (a data-driven Migration Phase Index with density-valley phase classification), nest detection (stratified spatiotemporal DBSCAN), site fidelity quantification, and circadian rhythm analysis.
+License: MIT + file LICENSE
+URL: https://github.com/EverTSZ/movepp,
+    https://EverTSZ.github.io/movepp
+BugReports: https://github.com/EverTSZ/movepp/issues
+Encoding: UTF-8
+Language: en-US
+LazyData: true
+Depends:
+    R (>= 4.1.0)
+Imports:
+    sf (>= 1.0),
+    dbscan (>= 1.1),
+    mclust (>= 6.0),
+    suncalc,
+    stats,
+    utils
+Suggests:
+    ggplot2,
+    rlang,
+    crosstalk,
+    shiny,
+    miniUI,
+    plotly,
+    nestR,
+    FSA,
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown,
+    quarto,
+    pkgdown,
+    covr,
+    rnaturalearth,
+    rnaturalearthdata,
+    htmltools
+Remotes:
+    picardis/nestR
+VignetteBuilder: quarto
+Roxygen: list(markdown = TRUE)
+Config/testthat/edition: 3
+Config/roxygen2/version: 8.0.0

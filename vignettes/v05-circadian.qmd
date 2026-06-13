@@ -1,0 +1,177 @@
+---
+title: "Solar-Elevation Circadian Classification"
+format:
+  html:
+    embed-resources: true
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Solar-Elevation Circadian Classification}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>",
+                      fig.width = 7, fig.height = 5)
+```
+
+# Overview
+
+`compute_solar_elevation()` and `classify_circadian()` partition
+tracking fixes by **solar elevation angle** into day / twilight / night.
+This vignette goes one step further than a per-fix label: it asks **how
+each temporary habitat is used over the diel cycle**, by voting the
+fixes within every habitat into a single *diel type* (Day / Twilight /
+Night, or Mixed when no period exceeds 50%).
+
+We demonstrate this on the **stopover** habitats of the godwit's
+spring/autumn passage through the **Bohai Bay** region (Yellow Sea), one
+of the most important refuelling areas on the East Asian–Australasian
+Flyway. Restricting to a single staging region keeps the diel-use map
+legible and shows how roosting (night) and foraging (day) sites separate
+spatially within one stopover.
+
+# Setup
+
+We first rebuild the meso-scale phase classification exactly as in
+`vignette("v04-mpi-phases")`, then keep the **Stopover** fixes inside the
+Bohai Bay bounding box.
+
+```{r}
+library(movepp)
+library(sf)
+library(ggplot2)
+data("godwit_demo")
+
+godwit <- compute_step_speed(godwit_demo, time_col = "time",
+                             individual_col = "individual", direction = "centered")
+seg <- balm_segmentation(godwit, variable_col = "step_speed",
+                         individual_col = "individual", verbose = FALSE)
+stationary <- seg[!is.na(seg$cluster_type) & seg$cluster_type %in% c("LL", "LH"), ]
+p   <- detect_habitat_params(stationary, track = seg,
+                             individual_col = "individual", time_col = "time")
+hab <- dbscan_habitats(stationary, individual_col = "individual",
+                       eps = p$eps, minPts = p$minPts)
+mpi <- compute_mpi(hab, individual_col = "individual",
+                   time_col = "time", verbose = FALSE)
+phs <- classify_phases(mpi, n_phases = 3, individual_col = "individual")
+```
+
+Restrict to the **Stopover** phase within the Bohai Bay box
+(117.8–118.6 °E, 38.8–39.4 °N):
+
+```{r}
+co <- sf::st_coordinates(phs); phs$lon <- co[, 1]; phs$lat <- co[, 2]
+bohai <- phs[!is.na(phs$phase) & phs$phase == "Stopover" &
+             phs$lon >= 117.8 & phs$lon <= 118.6 &
+             phs$lat >=  38.8 & phs$lat <=  39.4, ]
+c(stopover_fixes = nrow(bohai),
+  habitats       = length(unique(bohai$cluster_id)))
+```
+
+# Compute solar elevation and classify the diel period
+
+```{r}
+bohai <- compute_solar_elevation(bohai, time_col = "time")
+bohai <- classify_circadian(bohai, verbose = FALSE)
+table(bohai$circadian, useNA = "ifany")
+```
+
+Defaults follow the standard civil-twilight definition:
+
+- **Day**: elevation > 0 deg
+- **Twilight**: -6 < elevation <= 0 deg
+- **Night**: elevation <= -6 deg
+
+Override via `day_threshold` / `twilight_threshold` for a stricter cut
+(e.g. astronomical twilight at -18 deg).
+
+# Diel typing of each habitat
+
+Each temporary habitat is classified by the **majority diel period** of
+its fixes: the dominant period wins if it holds >50% of the fixes,
+otherwise the habitat is labelled **Mixed**.
+
+```{r}
+bohai <- classify_habitat_circadian(bohai, individual_col = "individual",
+                                     cluster_col = "cluster_id", verbose = FALSE)
+table(bohai$habitat_circadian, useNA = "ifany")
+```
+
+A one-row-per-habitat summary of the diel split and resulting type:
+
+```{r}
+hab_tab <- attr(bohai, "habitat_circadian")
+hab_tab <- hab_tab[order(hab_tab$type, -hab_tab$n), ]
+print(hab_tab, row.names = FALSE)
+```
+
+# Map: diel habitat utilization in Bohai Bay
+
+Each fix is coloured by the diel type of the habitat it belongs to, over
+the Bohai Bay coastline. Night-typed (roosting) and day-typed (foraging)
+habitats occupy distinct locations within the single stopover region.
+
+```{r}
+#| fig-width: 7
+#| fig-height: 6
+#| fig-cap: "Diel utilization of stopover habitats in Bohai Bay: each habitat typed by its dominant solar period."
+world    <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
+type_pal <- c(Night = "#2C3E70", Twilight = "#E9A23B",
+              Day = "#F2E96B", Mixed = "#9E9E9E")
+
+ggplot() +
+  geom_sf(data = world, fill = "grey96", colour = "grey75", linewidth = 0.2) +
+  geom_sf(data = bohai, aes(colour = habitat_circadian), size = 1.6, alpha = 0.8) +
+  scale_colour_manual(values = type_pal, name = "habitat diel type",
+                      drop = FALSE, na.translate = FALSE) +
+  coord_sf(xlim = c(117.8, 118.6), ylim = c(38.8, 39.4), expand = FALSE) +
+  guides(colour = guide_legend(override.aes = list(size = 3))) +
+  labs(x = NULL, y = NULL,
+       title = "Diel habitat utilization, Bohai Bay stopover") +
+  theme_minimal(base_size = 12)
+```
+
+# Activity across the diel cycle
+
+Step speed against solar elevation shows when the bird is active; the
+dotted lines mark the twilight (-6 deg) and day (0 deg) thresholds.
+
+```{r}
+#| fig-width: 7
+#| fig-height: 4.5
+ggplot(bohai, aes(solar_elevation, step_speed)) +
+  geom_point(alpha = 0.12, size = 0.5) +
+  geom_smooth(method = "gam", formula = y ~ s(x), colour = "#D7191C") +
+  geom_vline(xintercept = c(-6, 0), linetype = "dotted", colour = "grey50") +
+  labs(x = "solar elevation (deg)", y = "step speed",
+       title = "Stopover activity vs solar elevation") +
+  theme_minimal(base_size = 12)
+```
+
+A 24-hour rhythm in **mean solar time** (UTC hour + lon / 15), with a
+cyclic spline so the curve joins at 0/24 h:
+
+```{r}
+#| fig-width: 7
+#| fig-height: 4.5
+utc <- as.POSIXct(format(bohai$time, tz = "UTC"), tz = "UTC")
+bohai$solar_hour <- ((as.numeric(format(utc, "%H")) +
+                      as.numeric(format(utc, "%M")) / 60) + bohai$lon / 15) %% 24
+ggplot(bohai, aes(solar_hour, step_speed)) +
+  geom_smooth(method = "gam", formula = y ~ s(x, bs = "cc"), colour = "#2C7BB6") +
+  scale_x_continuous(breaks = seq(0, 24, 6), limits = c(0, 24)) +
+  labs(x = "mean solar time (h)", y = "step speed",
+       title = "Stopover circadian activity (24 h)") +
+  theme_minimal(base_size = 12)
+```
+
+# See also
+
+- `vignette("v04-mpi-phases")` — the upstream phase classification
+- `vignette("v06-isfi")` — stratifying site fidelity by phase
+
+```{r}
+sessionInfo()
+```
+
