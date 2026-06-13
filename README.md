@@ -95,20 +95,30 @@ the transient points do not bias the fitted phase components.
 
 ## Relation to the ArcGIS Pro toolbox
 
-This R package is a sister implementation to the **Animal Movement
-Point-Pattern Analysis** toolbox distributed for ArcGIS Pro. Where the
-toolbox classified movement states
-with Anselin's Local Moran's I (the ArcGIS *Cluster and Outlier Analysis*
-tool), `movepp` uses **BALM** (`balm_segmentation()`), a movement-adapted
-variant of the Local Moran scatterplot. BALM anchors the high/low reference
-to a data-driven behavioral threshold -- the flight-onset speed -- rather
-than the arithmetic mean, and labels each fix deterministically by its
-Moran-scatterplot quadrant rather than by a permutation significance test;
-spatial support for stationary sites is instead arbitrated by density
-clustering (`dbscan_habitats()`). Because it uses only point locations and
-a movement-rate mark -- never direction or the raw temporal sequence --
-BALM is invariant to fix ordering and robust to sampling-rate heterogeneity
-across devices, years, and species.
+`movepp` and the **Animal Movement Point-Pattern Analysis** toolbox for
+ArcGIS Pro are two independent implementations of the same framework: the
+toolbox runs in ArcGIS Pro's Python environment (`scikit-learn`/`scipy`),
+while `movepp` is a pure-R implementation that needs no GIS licence.
+Either one alone is enough to apply the framework, and they share the
+same pipeline end to end — BALM movement-state segmentation, DBSCAN
+temporary habitats, density-valley MPI phase classification, circadian
+classification, nest detection, and site fidelity. The shared
+spatial-statistics steps are algorithmically equivalent (matching
+statistically rather than bit-for-bit); the one deliberate difference is
+nest detection, where the toolbox wraps Picardi's `nestR` (in R) while
+`movepp` uses its own stratified ST-DBSCAN (`detect_nests()`).
+
+Both implementations classify movement states with **BALM**
+(`balm_segmentation()` in R), a movement-adapted variant of the Local
+Moran scatterplot. BALM anchors the high/low reference to a data-driven
+behavioral threshold -- the flight-onset speed -- rather than the
+arithmetic mean, and labels each fix deterministically by its
+Moran-scatterplot quadrant rather than by a permutation significance
+test; spatial support for stationary sites is instead arbitrated by
+density clustering (`dbscan_habitats()`). Because it uses only point
+locations and a movement-rate mark -- never direction or the raw
+temporal sequence -- BALM is invariant to fix ordering and robust to
+sampling-rate heterogeneity across devices, years, and species.
 
 ## Citation
 
