@@ -2,7 +2,7 @@
 
 ## Overview
 
-[`balm_segmentation()`](https://EverTSZ.github.io/movepp/reference/balm_segmentation.md)
+[`balm_segmentation()`](https://evertsz.github.io/movepp/reference/balm_segmentation.md)
 classifies each tracking fix into a movement state using **BALM**
 (Behaviorally-Anchored Local Moran), a movement-adapted variant of the
 Local Moran scatterplot. It uses only point locations and a
@@ -25,7 +25,7 @@ reference is a **data-driven behavioral threshold** (the flight-onset
 speed) rather than the arithmetic mean, and classification is
 **deterministic** (no permutation significance) – spatial support is
 arbitrated downstream by density clustering
-([`dbscan_habitats()`](https://EverTSZ.github.io/movepp/reference/dbscan_habitats.md)).
+([`dbscan_habitats()`](https://evertsz.github.io/movepp/reference/dbscan_habitats.md)).
 
 ## Setup
 

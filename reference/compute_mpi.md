@@ -144,7 +144,7 @@ d\_{\mathrm{norm}}}\\.
 
 ## See also
 
-[`detect_dominant_axis()`](https://EverTSZ.github.io/movepp/reference/detect_dominant_axis.md)
+[`detect_dominant_axis()`](https://evertsz.github.io/movepp/reference/detect_dominant_axis.md)
 for the underlying axis detection.
 
 ## Examples

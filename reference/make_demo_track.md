@@ -6,7 +6,7 @@ individual visits **two stationary sites** (mimicking wintering and
 breeding grounds for a migratory bird), connected by a migration trail.
 Each stationary site is a tight cluster (sd ~500 m), providing the
 spatial-occupancy structure that
-[`dbscan_habitats()`](https://EverTSZ.github.io/movepp/reference/dbscan_habitats.md)
+[`dbscan_habitats()`](https://evertsz.github.io/movepp/reference/dbscan_habitats.md)
 delineates at a data-derived scale.
 
 ## Usage

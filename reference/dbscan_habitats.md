@@ -16,7 +16,7 @@ dbscan_habitats(x, individual_col = NULL, eps, minPts, drop_noise = TRUE)
 - x:
 
   An sf POINT object, typically the stationary (LL/LH) subset from
-  [`balm_segmentation()`](https://EverTSZ.github.io/movepp/reference/balm_segmentation.md).
+  [`balm_segmentation()`](https://evertsz.github.io/movepp/reference/balm_segmentation.md).
 
 - individual_col:
 
@@ -28,7 +28,7 @@ dbscan_habitats(x, individual_col = NULL, eps, minPts, drop_noise = TRUE)
 
   Neighbourhood radius in kilometres. **Required, no default** – it must
   be derived from the data, typically via
-  [`detect_habitat_params()`](https://EverTSZ.github.io/movepp/reference/detect_habitat_params.md),
+  [`detect_habitat_params()`](https://evertsz.github.io/movepp/reference/detect_habitat_params.md),
   not hard-coded. Two fixes join the same habitat when reachable through
   hops no larger than `eps`.
 
@@ -36,7 +36,7 @@ dbscan_habitats(x, individual_col = NULL, eps, minPts, drop_noise = TRUE)
 
   Minimum number of points within `eps` for a core point. **Required, no
   default** – typically from
-  [`detect_habitat_params()`](https://EverTSZ.github.io/movepp/reference/detect_habitat_params.md).
+  [`detect_habitat_params()`](https://evertsz.github.io/movepp/reference/detect_habitat_params.md).
   Acts as a uniform density / noise floor; interpretable as a minimum
   residence time given the sampling interval.
 
@@ -76,7 +76,7 @@ noise. *Proc. KDD-96*, 226-231.
 
 ## See also
 
-[`detect_habitat_params()`](https://EverTSZ.github.io/movepp/reference/detect_habitat_params.md)
+[`detect_habitat_params()`](https://evertsz.github.io/movepp/reference/detect_habitat_params.md)
 to derive `eps` and `minPts` from data.
 
 ## Examples

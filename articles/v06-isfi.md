@@ -2,7 +2,7 @@
 
 ## Overview
 
-[`compute_isfi()`](https://EverTSZ.github.io/movepp/reference/compute_isfi.md)
+[`compute_isfi()`](https://evertsz.github.io/movepp/reference/compute_isfi.md)
 quantifies how often an individual returns to the same temporary habitat
 (or nest) across years:
 
@@ -65,7 +65,7 @@ phs  <- classify_phases(mpi, n_phases = 3, individual_col = "individual")
 #> [classify_phases] 3 phase(s); peaks {0.035, 0.635, 0.964}; cut(s) {0.220, 0.846}; sizes {19963, 18973, 8016}; mean MPI {0.042, 0.615, 0.960}
 ```
 
-[`classify_phases()`](https://EverTSZ.github.io/movepp/reference/classify_phases.md)
+[`classify_phases()`](https://evertsz.github.io/movepp/reference/classify_phases.md)
 returns phase labels ordered by ascending mean MPI. We remap these to
 biologically meaningful names:
 
@@ -85,7 +85,7 @@ table(phs$phase_named, useNA = "ifany")
 
 ## Per-phase ISFI
 
-[`compute_isfi()`](https://EverTSZ.github.io/movepp/reference/compute_isfi.md)
+[`compute_isfi()`](https://evertsz.github.io/movepp/reference/compute_isfi.md)
 with `phase_col` returns one row per (individual, phase) combination —
 exactly the breakdown needed for biological interpretation:
 
@@ -217,7 +217,7 @@ specific individual.
 ## INFI: nest-level fidelity
 
 The same function applied to the output of
-[`detect_nests()`](https://EverTSZ.github.io/movepp/reference/detect_nests.md)
+[`detect_nests()`](https://evertsz.github.io/movepp/reference/detect_nests.md)
 yields the Individual Nest Fidelity Index:
 
 ``` r

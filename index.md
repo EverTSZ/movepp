@@ -70,13 +70,13 @@ resulting spatial point pattern. The workflow runs as a single pipeline
 — from raw fixes, to movement states, to functional places, and finally
 reading the time-marks back onto those places — with each stage walked
 through in a worked article on the [package
-website](https://EverTSZ.github.io/movepp/articles/):
+website](https://evertsz.github.io/movepp/articles/):
 
 | Stage | Functions | What it does |
 |----|----|----|
-| **From fixes to movement states** | [`compute_step_speed()`](https://EverTSZ.github.io/movepp/reference/compute_step_speed.md), [`balm_segmentation()`](https://EverTSZ.github.io/movepp/reference/balm_segmentation.md) | Derive a device-agnostic movement rate, then label each fix migratory (`HH`), stationary (`LL`), or transitional (`HL`/`LH`) with BALM |
-| **From movement states to functional places** | [`detect_habitat_params()`](https://EverTSZ.github.io/movepp/reference/detect_habitat_params.md), [`dbscan_habitats()`](https://EverTSZ.github.io/movepp/reference/dbscan_habitats.md), [`detect_dominant_axis()`](https://EverTSZ.github.io/movepp/reference/detect_dominant_axis.md), [`compute_mpi()`](https://EverTSZ.github.io/movepp/reference/compute_mpi.md), [`classify_phases()`](https://EverTSZ.github.io/movepp/reference/classify_phases.md), [`annotate_phases()`](https://EverTSZ.github.io/movepp/reference/annotate_phases.md) | Delineate temporary habitats from the stationary (`LL`) fixes with DBSCAN, then assign each habitat a migration phase (wintering / stopover / breeding) via the Migration Phase Index |
-| **Reading marks back onto places** | [`compute_solar_elevation()`](https://EverTSZ.github.io/movepp/reference/compute_solar_elevation.md), [`classify_circadian()`](https://EverTSZ.github.io/movepp/reference/classify_circadian.md), [`classify_habitat_circadian()`](https://EverTSZ.github.io/movepp/reference/classify_habitat_circadian.md), [`detect_nests()`](https://EverTSZ.github.io/movepp/reference/detect_nests.md), [`compute_isfi()`](https://EverTSZ.github.io/movepp/reference/compute_isfi.md) | With places labelled by phase, read the time-of-day, day-of-year, and year marks back at nested timescales: diel activity type, ST-DBSCAN nest detection, and the multi-year Individual Site Fidelity Index |
+| **From fixes to movement states** | [`compute_step_speed()`](https://evertsz.github.io/movepp/reference/compute_step_speed.md), [`balm_segmentation()`](https://evertsz.github.io/movepp/reference/balm_segmentation.md) | Derive a device-agnostic movement rate, then label each fix migratory (`HH`), stationary (`LL`), or transitional (`HL`/`LH`) with BALM |
+| **From movement states to functional places** | [`detect_habitat_params()`](https://evertsz.github.io/movepp/reference/detect_habitat_params.md), [`dbscan_habitats()`](https://evertsz.github.io/movepp/reference/dbscan_habitats.md), [`detect_dominant_axis()`](https://evertsz.github.io/movepp/reference/detect_dominant_axis.md), [`compute_mpi()`](https://evertsz.github.io/movepp/reference/compute_mpi.md), [`classify_phases()`](https://evertsz.github.io/movepp/reference/classify_phases.md), [`annotate_phases()`](https://evertsz.github.io/movepp/reference/annotate_phases.md) | Delineate temporary habitats from the stationary (`LL`) fixes with DBSCAN, then assign each habitat a migration phase (wintering / stopover / breeding) via the Migration Phase Index |
+| **Reading marks back onto places** | [`compute_solar_elevation()`](https://evertsz.github.io/movepp/reference/compute_solar_elevation.md), [`classify_circadian()`](https://evertsz.github.io/movepp/reference/classify_circadian.md), [`classify_habitat_circadian()`](https://evertsz.github.io/movepp/reference/classify_habitat_circadian.md), [`detect_nests()`](https://evertsz.github.io/movepp/reference/detect_nests.md), [`compute_isfi()`](https://evertsz.github.io/movepp/reference/compute_isfi.md) | With places labelled by phase, read the time-of-day, day-of-year, and year marks back at nested timescales: diel activity type, ST-DBSCAN nest detection, and the multi-year Individual Site Fidelity Index |
 
 ## Two kinds of stopover
 
@@ -86,7 +86,7 @@ stopovers** accumulate enough co-located fixes to form a low-speed
 in-corridor touch-downs instead appear as `LH` outliers (a low-speed fix
 embedded in the high-speed migratory corridor). Setting
 `fixed_stopover = "LH"` in
-[`classify_phases()`](https://EverTSZ.github.io/movepp/reference/classify_phases.md)
+[`classify_phases()`](https://evertsz.github.io/movepp/reference/classify_phases.md)
 hard-labels these as `transient_stopover` and removes them from the
 classification, so the two stopover types stay distinct and the
 transient points do not bias the fitted phase components.
@@ -106,17 +106,17 @@ equivalent (matching statistically rather than bit-for-bit); the one
 deliberate difference is nest detection, where the toolbox wraps
 Picardi’s `nestR` (in R) while `movepp` uses its own stratified
 ST-DBSCAN
-([`detect_nests()`](https://EverTSZ.github.io/movepp/reference/detect_nests.md)).
+([`detect_nests()`](https://evertsz.github.io/movepp/reference/detect_nests.md)).
 
 Both implementations classify movement states with **BALM**
-([`balm_segmentation()`](https://EverTSZ.github.io/movepp/reference/balm_segmentation.md)
+([`balm_segmentation()`](https://evertsz.github.io/movepp/reference/balm_segmentation.md)
 in R), a movement-adapted variant of the Local Moran scatterplot. BALM
 anchors the high/low reference to a data-driven behavioral threshold –
 the flight-onset speed – rather than the arithmetic mean, and labels
 each fix deterministically by its Moran-scatterplot quadrant rather than
 by a permutation significance test; spatial support for stationary sites
 is instead arbitrated by density clustering
-([`dbscan_habitats()`](https://EverTSZ.github.io/movepp/reference/dbscan_habitats.md)).
+([`dbscan_habitats()`](https://evertsz.github.io/movepp/reference/dbscan_habitats.md)).
 Because it uses only point locations and a movement-rate mark – never
 direction or the raw temporal sequence – BALM is invariant to fix
 ordering and robust to sampling-rate heterogeneity across devices,

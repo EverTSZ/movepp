@@ -115,7 +115,7 @@ devices (Doppler, displacement averages, proprietary smoothing) and many
 low-cost trackers do not report speed at all. Computing it from raw fix
 coordinates yields a reproducible, device-agnostic variable.
 
-[`compute_step_speed()`](https://EverTSZ.github.io/movepp/reference/compute_step_speed.md)
+[`compute_step_speed()`](https://evertsz.github.io/movepp/reference/compute_step_speed.md)
 defaults to **centered** mode: each fix’s step speed is the total
 displacement to its two adjacent fixes divided by the total time,
 capturing both take-off and landing events symmetrically and producing
@@ -151,7 +151,7 @@ in *Where to go next*.
 
 ### Macro scale: movement-state segmentation with BALM
 
-[`balm_segmentation()`](https://EverTSZ.github.io/movepp/reference/balm_segmentation.md)
+[`balm_segmentation()`](https://evertsz.github.io/movepp/reference/balm_segmentation.md)
 labels every fix by a **Behaviorally-Anchored Local Moran** (BALM)
 scatterplot quadrant: `HH` (migration), `LL` (stationary core), `HL`
 (within-site burst), `LH` (transient touch-down in the corridor). The
@@ -185,7 +185,7 @@ attr(seg, "balm_reference")    # flight-onset reference c (km/h)
 The stationary cores (`LL`) and transient touch-downs (`LH`) are
 clustered into temporary habitats with DBSCAN. Both parameters are
 derived from the data by
-[`detect_habitat_params()`](https://EverTSZ.github.io/movepp/reference/detect_habitat_params.md)
+[`detect_habitat_params()`](https://evertsz.github.io/movepp/reference/detect_habitat_params.md)
 — `eps` is the within-site movement radius and `minPts` the
 minimum-residence floor — never hard-coded. The full derivation (with
 the within-site/flight step-distance split and the habitat-count knee)
@@ -216,12 +216,12 @@ length(unique(hab$cluster_id))    # temporary habitats delineated
 
 ### Meso scale: phase classification (MPI + density valleys)
 
-[`detect_dominant_axis()`](https://EverTSZ.github.io/movepp/reference/detect_dominant_axis.md)
+[`detect_dominant_axis()`](https://evertsz.github.io/movepp/reference/detect_dominant_axis.md)
 finds the migration axis by PCA;
-[`compute_mpi()`](https://EverTSZ.github.io/movepp/reference/compute_mpi.md)
+[`compute_mpi()`](https://evertsz.github.io/movepp/reference/compute_mpi.md)
 then scores each habitat on a data-driven Migration Phase Index in \[0,
 1\] (high = breeding place *and* breeding season); and
-[`classify_phases()`](https://EverTSZ.github.io/movepp/reference/classify_phases.md)
+[`classify_phases()`](https://evertsz.github.io/movepp/reference/classify_phases.md)
 cuts the MPI distribution at its density valleys, ordering phases by
 ascending mean MPI. Details, including the peak-anchored cut points, are
 in `vignette("v04-mpi-phases")`.

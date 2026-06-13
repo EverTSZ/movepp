@@ -29,7 +29,7 @@ balm_segmentation(
 
   Column name (string) of the movement-rate attribute, e.g.
   `"step_speed"` from
-  [`compute_step_speed()`](https://EverTSZ.github.io/movepp/reference/compute_step_speed.md).
+  [`compute_step_speed()`](https://evertsz.github.io/movepp/reference/compute_step_speed.md).
 
 - individual_col:
 
@@ -81,7 +81,7 @@ suited to movement data:
     of its deviation `d_i = x_i - c` and its spatial lag
     `Sum_j w_ij d_j`; no permutation significance is applied. Spatial
     support is arbitrated downstream by density clustering
-    ([`dbscan_habitats()`](https://EverTSZ.github.io/movepp/reference/dbscan_habitats.md)).
+    ([`dbscan_habitats()`](https://evertsz.github.io/movepp/reference/dbscan_habitats.md)).
 
 The four states follow the Moran-scatterplot quadrants:
 
@@ -100,7 +100,7 @@ the temporal sequence and robust to sampling-rate heterogeneity.
 
 ## See also
 
-[`compute_step_speed()`](https://EverTSZ.github.io/movepp/reference/compute_step_speed.md)
+[`compute_step_speed()`](https://evertsz.github.io/movepp/reference/compute_step_speed.md)
 for the input rate;
-[`dbscan_habitats()`](https://EverTSZ.github.io/movepp/reference/dbscan_habitats.md)
+[`dbscan_habitats()`](https://evertsz.github.io/movepp/reference/dbscan_habitats.md)
 for downstream habitat delineation.

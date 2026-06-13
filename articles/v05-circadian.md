@@ -2,9 +2,9 @@
 
 ## Overview
 
-[`compute_solar_elevation()`](https://EverTSZ.github.io/movepp/reference/compute_solar_elevation.md)
+[`compute_solar_elevation()`](https://evertsz.github.io/movepp/reference/compute_solar_elevation.md)
 and
-[`classify_circadian()`](https://EverTSZ.github.io/movepp/reference/classify_circadian.md)
+[`classify_circadian()`](https://evertsz.github.io/movepp/reference/classify_circadian.md)
 partition tracking fixes by **solar elevation angle** into day /
 twilight / night. This vignette goes one step further than a per-fix
 label: it asks **how each temporary habitat is used over the diel

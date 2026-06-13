@@ -2,14 +2,14 @@
 
 ## Overview
 
-[`dbscan_habitats()`](https://EverTSZ.github.io/movepp/reference/dbscan_habitats.md)
+[`dbscan_habitats()`](https://evertsz.github.io/movepp/reference/dbscan_habitats.md)
 clusters the low-speed points (LL stationary cores plus LH
 short-stopover arrivals) from
-[`balm_segmentation()`](https://EverTSZ.github.io/movepp/reference/balm_segmentation.md)
+[`balm_segmentation()`](https://evertsz.github.io/movepp/reference/balm_segmentation.md)
 into spatially-bounded **temporary habitats**, using standard DBSCAN
 (Ester et al. 1996) per individual. Its two parameters are **derived
 from the data** by
-[`detect_habitat_params()`](https://EverTSZ.github.io/movepp/reference/detect_habitat_params.md),
+[`detect_habitat_params()`](https://evertsz.github.io/movepp/reference/detect_habitat_params.md),
 not hard-coded, and each has an explicit behavioural meaning:
 
 - `eps` – the **within-site movement radius**. On the segmented track,
@@ -23,7 +23,7 @@ not hard-coded, and each has an explicit behavioural meaning:
   `minPts x sampling-interval` = minimum residence duration (reported),
   or set it directly with `min_residence` (days).
 
-[`detect_habitat_params()`](https://EverTSZ.github.io/movepp/reference/detect_habitat_params.md)
+[`detect_habitat_params()`](https://evertsz.github.io/movepp/reference/detect_habitat_params.md)
 also reports the `regime` (“migratory” when flight (HH) steps exist,
 else “continuous”) and `gap_ratio`, the fold-separation between the
 flight and within-site scales.
@@ -214,8 +214,8 @@ ggplot(hd, aes(lon, lat, colour = habitat)) +
 
 `hab` is the stationary subset with an added integer `cluster_id`; noise
 is dropped by default. Downstream steps
-([`compute_mpi()`](https://EverTSZ.github.io/movepp/reference/compute_mpi.md),
-[`classify_phases()`](https://EverTSZ.github.io/movepp/reference/classify_phases.md))
+([`compute_mpi()`](https://evertsz.github.io/movepp/reference/compute_mpi.md),
+[`classify_phases()`](https://evertsz.github.io/movepp/reference/classify_phases.md))
 consume `hab$cluster_id` unchanged.
 
 ## Reference

@@ -23,7 +23,7 @@ classify_circadian(
 - points:
 
   An `sf` object with a solar elevation column (typically the output of
-  [`compute_solar_elevation()`](https://EverTSZ.github.io/movepp/reference/compute_solar_elevation.md)).
+  [`compute_solar_elevation()`](https://evertsz.github.io/movepp/reference/compute_solar_elevation.md)).
 
 - elevation_col:
 

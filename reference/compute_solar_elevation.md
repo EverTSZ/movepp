@@ -3,7 +3,7 @@
 Calculates the solar elevation angle (in degrees, with negative values
 below the horizon) for each tracking point, given its coordinates and
 timestamp. Used downstream by
-[`classify_circadian()`](https://EverTSZ.github.io/movepp/reference/classify_circadian.md)
+[`classify_circadian()`](https://evertsz.github.io/movepp/reference/classify_circadian.md)
 to partition activity into day, twilight, and night periods.
 
 ## Usage

@@ -2,7 +2,7 @@
 
 Implements the spatiotemporal DBSCAN of Birant & Kut (2007). Not
 exported; called by
-[`detect_nests()`](https://EverTSZ.github.io/movepp/reference/detect_nests.md).
+[`detect_nests()`](https://evertsz.github.io/movepp/reference/detect_nests.md).
 
 ## Usage
 

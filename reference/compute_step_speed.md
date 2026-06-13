@@ -94,7 +94,7 @@ The `direction` argument controls how each fix's speed is defined:
 
 ## See also
 
-[`balm_segmentation()`](https://EverTSZ.github.io/movepp/reference/balm_segmentation.md)
+[`balm_segmentation()`](https://evertsz.github.io/movepp/reference/balm_segmentation.md)
 for using the computed step speed in spatial autocorrelation analysis.
 
 ## Examples

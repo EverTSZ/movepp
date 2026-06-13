@@ -45,7 +45,7 @@ annotate_phases(
 
   Optional column of starting phase labels to seed the annotation (e.g.
   `"phase"` from
-  [`classify_phases()`](https://EverTSZ.github.io/movepp/reference/classify_phases.md));
+  [`classify_phases()`](https://evertsz.github.io/movepp/reference/classify_phases.md));
   the gadget opens with these instead of all-"unassigned". `NULL`
   (default) starts blank.
 
@@ -72,7 +72,7 @@ order; `NULL` if cancelled.
 
 If `phase_col` is supplied, the gadget **opens with those labels as the
 starting classification** (e.g. the output of
-[`classify_phases()`](https://EverTSZ.github.io/movepp/reference/classify_phases.md)),
+[`classify_phases()`](https://evertsz.github.io/movepp/reference/classify_phases.md)),
 so only the mis-assigned points need correcting rather than annotating
 from scratch. Because the barcode is organised by habitat rank,
 box-selecting a whole rank-row over a time span selects an entire
@@ -98,7 +98,7 @@ Requires shiny, miniUI and plotly (Suggests).
 
 ## See also
 
-[`classify_phases()`](https://EverTSZ.github.io/movepp/reference/classify_phases.md)
+[`classify_phases()`](https://evertsz.github.io/movepp/reference/classify_phases.md)
 for the automatic classification this can refine,
-[`dbscan_habitats()`](https://EverTSZ.github.io/movepp/reference/dbscan_habitats.md)
+[`dbscan_habitats()`](https://evertsz.github.io/movepp/reference/dbscan_habitats.md)
 for producing the habitat ranks.

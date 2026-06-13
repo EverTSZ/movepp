@@ -5,18 +5,18 @@
 The meso-scale phase chain assigns each temporary habitat to a
 life-history phase (wintering / stopover / breeding):
 
-1.  **[`compute_mpi()`](https://EverTSZ.github.io/movepp/reference/compute_mpi.md)**
+1.  **[`compute_mpi()`](https://evertsz.github.io/movepp/reference/compute_mpi.md)**
     – a **data-driven** Migration Phase Index (MPI) in \[0, 1\]: nothing
     is hard-coded to latitude or to a fixed calendar.
-2.  **[`classify_phases()`](https://EverTSZ.github.io/movepp/reference/classify_phases.md)**
+2.  **[`classify_phases()`](https://evertsz.github.io/movepp/reference/classify_phases.md)**
     – finds the **density valleys** of the MPI distribution and **cuts**
     the MPI range at them, labelling each point by the band it falls in,
     then votes per habitat; phases are ordered by ascending mean MPI.
-3.  **[`annotate_phases()`](https://EverTSZ.github.io/movepp/reference/annotate_phases.md)**
+3.  **[`annotate_phases()`](https://evertsz.github.io/movepp/reference/annotate_phases.md)**
     – an optional interactive gadget to manually refine the automatic
     result (seeded from it), per habitat.
 
-[`detect_dominant_axis()`](https://EverTSZ.github.io/movepp/reference/detect_dominant_axis.md)
+[`detect_dominant_axis()`](https://evertsz.github.io/movepp/reference/detect_dominant_axis.md)
 is available as a stand-alone axis diagnostic.
 
 ## Setup
@@ -94,7 +94,7 @@ c(winter_doy = attr(mpi, "mpi_winter_doy"),
 
 ## Phase classification
 
-[`classify_phases()`](https://EverTSZ.github.io/movepp/reference/classify_phases.md)
+[`classify_phases()`](https://evertsz.github.io/movepp/reference/classify_phases.md)
 fits **no distributional model** and uses **no prominence threshold**.
 MPI is built so wintering piles up near 0 and breeding near 1, so on the
 pooled MPI density the **leftmost peak is the wintering mode and the
@@ -181,7 +181,7 @@ ggplot() +
 
 ## Manual refinement (optional, interactive)
 
-[`annotate_phases()`](https://EverTSZ.github.io/movepp/reference/annotate_phases.md)
+[`annotate_phases()`](https://evertsz.github.io/movepp/reference/annotate_phases.md)
 opens a Shiny gadget **seeded with the phase classification**
 (`phase_col = "phase"`): a habitat-occupancy *behaviour barcode* (time x
 habitat rank) linked to a clean coastline map. Box-select a habitat – a

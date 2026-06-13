@@ -1,7 +1,7 @@
 # Derive DBSCAN habitat-delineation parameters from the data
 
 Estimates the two DBSCAN parameters (`eps` and `minPts`) used by
-[`dbscan_habitats()`](https://EverTSZ.github.io/movepp/reference/dbscan_habitats.md)
+[`dbscan_habitats()`](https://evertsz.github.io/movepp/reference/dbscan_habitats.md)
 from empirical tracking data, removing the need for hard-coded
 assumptions. Both parameters are derived at the population level and
 have an explicit behavioural meaning. This generalized version
@@ -174,7 +174,7 @@ using the median sampling interval.
 
 ## See also
 
-[`dbscan_habitats()`](https://EverTSZ.github.io/movepp/reference/dbscan_habitats.md).
+[`dbscan_habitats()`](https://evertsz.github.io/movepp/reference/dbscan_habitats.md).
 
 ## Examples
 

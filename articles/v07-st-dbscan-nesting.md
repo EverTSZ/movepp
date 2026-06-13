@@ -2,7 +2,7 @@
 
 ## Overview
 
-[`detect_nests()`](https://EverTSZ.github.io/movepp/reference/detect_nests.md)
+[`detect_nests()`](https://evertsz.github.io/movepp/reference/detect_nests.md)
 implements the **three-tier sigma-stratified ST-DBSCAN** algorithm of
 the accompanying manuscript (Eq. 10). It exploits the fact that GPS
 fixes during nesting are approximately bivariate-normally distributed
@@ -71,7 +71,7 @@ cat("Date range:", format(range(breeding$time)), "\n")
 
 ## Project to a metric CRS
 
-[`detect_nests()`](https://EverTSZ.github.io/movepp/reference/detect_nests.md)
+[`detect_nests()`](https://evertsz.github.io/movepp/reference/detect_nests.md)
 requires coordinates in metres so that `search_dist` has a physical
 interpretation. UTM 52N covers the Vilyuy / Lena breeding range:
 

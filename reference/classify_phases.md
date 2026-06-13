@@ -33,9 +33,9 @@ classify_phases(
 
   An `sf` object with at least three columns: the MPI, the individual
   ID, and the cluster ID (typically the output of
-  [`compute_mpi()`](https://EverTSZ.github.io/movepp/reference/compute_mpi.md)
+  [`compute_mpi()`](https://evertsz.github.io/movepp/reference/compute_mpi.md)
   applied to
-  [`dbscan_habitats()`](https://EverTSZ.github.io/movepp/reference/dbscan_habitats.md)
+  [`dbscan_habitats()`](https://evertsz.github.io/movepp/reference/dbscan_habitats.md)
   output).
 
 - mpi_col:
@@ -170,9 +170,9 @@ resolved only on the genuinely stationary (LL) points.
 
 ## See also
 
-[`compute_mpi()`](https://EverTSZ.github.io/movepp/reference/compute_mpi.md)
+[`compute_mpi()`](https://evertsz.github.io/movepp/reference/compute_mpi.md)
 for the upstream MPI computation,
-[`annotate_phases()`](https://EverTSZ.github.io/movepp/reference/annotate_phases.md)
+[`annotate_phases()`](https://evertsz.github.io/movepp/reference/annotate_phases.md)
 for interactive manual refinement.
 
 ## Examples

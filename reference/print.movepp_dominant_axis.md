@@ -14,7 +14,7 @@ print(x, ...)
 - x:
 
   A `movepp_dominant_axis` object from
-  [`detect_dominant_axis()`](https://EverTSZ.github.io/movepp/reference/detect_dominant_axis.md).
+  [`detect_dominant_axis()`](https://evertsz.github.io/movepp/reference/detect_dominant_axis.md).
 
 - ...:
 

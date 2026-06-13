@@ -1,7 +1,7 @@
 # Type each temporary habitat by its dominant diel period
 
 Aggregates the per-fix circadian labels from
-[`classify_circadian()`](https://EverTSZ.github.io/movepp/reference/classify_circadian.md)
+[`classify_circadian()`](https://evertsz.github.io/movepp/reference/classify_circadian.md)
 to the temporary-habitat (cluster) level. Each habitat is assigned the
 diel period holding a majority (greater than `majority`) of its fixes,
 or `"Mixed"` when no period does. The per-fix day/twilight/night label
@@ -29,9 +29,9 @@ classify_habitat_circadian(
 
   An `sf` object carrying a per-fix circadian label (typically the
   `circadian` column from
-  [`classify_circadian()`](https://EverTSZ.github.io/movepp/reference/classify_circadian.md))
+  [`classify_circadian()`](https://evertsz.github.io/movepp/reference/classify_circadian.md))
   and a temporary-habitat cluster id (the `cluster_id` from
-  [`dbscan_habitats()`](https://EverTSZ.github.io/movepp/reference/dbscan_habitats.md)).
+  [`dbscan_habitats()`](https://evertsz.github.io/movepp/reference/dbscan_habitats.md)).
 
 - circadian_col:
 
@@ -72,7 +72,7 @@ proportions, and assigned type – is attached as the attribute
 
 ## See also
 
-[`classify_circadian()`](https://EverTSZ.github.io/movepp/reference/classify_circadian.md)
+[`classify_circadian()`](https://evertsz.github.io/movepp/reference/classify_circadian.md)
 for the per-fix labels this aggregates.
 
 ## Examples

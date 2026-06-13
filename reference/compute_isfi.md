@@ -30,9 +30,9 @@ compute_isfi(
 
   An `sf` object with `individual_col`, `cluster_col`, and `time_col`
   columns (typically the output of
-  [`dbscan_habitats()`](https://EverTSZ.github.io/movepp/reference/dbscan_habitats.md)
+  [`dbscan_habitats()`](https://evertsz.github.io/movepp/reference/dbscan_habitats.md)
   or
-  [`classify_phases()`](https://EverTSZ.github.io/movepp/reference/classify_phases.md)).
+  [`classify_phases()`](https://evertsz.github.io/movepp/reference/classify_phases.md)).
 
 - time_col:
 
@@ -91,12 +91,12 @@ A data frame with one row per individual (or per individual x phase if
 
 - `isfi`: site fidelity index in 0..1, `NA` if undefined.
 
-## Use with [`detect_nests()`](https://EverTSZ.github.io/movepp/reference/detect_nests.md) output to derive INFI
+## Use with [`detect_nests()`](https://evertsz.github.io/movepp/reference/detect_nests.md) output to derive INFI
 
 To compute the Individual Nest Fidelity Index (INFI) introduced in the
 manuscript Discussion, apply this same function to the `nests` sf
 produced by
-[`detect_nests()`](https://EverTSZ.github.io/movepp/reference/detect_nests.md)
+[`detect_nests()`](https://evertsz.github.io/movepp/reference/detect_nests.md)
 across multi-year tracking, passing the nest table's `nest_id` as the
 cluster column and the nest start time as the time column. No separate
 function is needed.
