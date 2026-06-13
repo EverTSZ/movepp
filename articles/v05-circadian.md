@@ -21,8 +21,8 @@ spatially within one stopover.
 ## Setup
 
 We first rebuild the meso-scale phase classification exactly as in
-[`vignette("v04-mpi-phases")`](https://EverTSZ.github.io/movepp/articles/v04-mpi-phases.md),
-then keep the **Stopover** fixes inside the Bohai Bay bounding box.
+`vignette("v04-mpi-phases")`, then keep the **Stopover** fixes inside
+the Bohai Bay bounding box.
 
 ``` r
 
@@ -265,10 +265,8 @@ ggplot(bohai, aes(solar_hour, step_speed)) +
 
 ## See also
 
-- [`vignette("v04-mpi-phases")`](https://EverTSZ.github.io/movepp/articles/v04-mpi-phases.md)
-  — the upstream phase classification
-- [`vignette("v06-isfi")`](https://EverTSZ.github.io/movepp/articles/v06-isfi.md)
-  — stratifying site fidelity by phase
+- `vignette("v04-mpi-phases")` — the upstream phase classification
+- `vignette("v06-isfi")` — stratifying site fidelity by phase
 
 ``` r
 

@@ -233,10 +233,8 @@ infi  <- compute_isfi(nests,
 
 ## See also
 
-- [`vignette("v04-mpi-phases")`](https://EverTSZ.github.io/movepp/articles/v04-mpi-phases.md)
-  — phase classification (upstream)
-- [`vignette("v07-st-dbscan-nesting")`](https://EverTSZ.github.io/movepp/articles/v07-st-dbscan-nesting.md)
-  — produces the input for INFI
+- `vignette("v04-mpi-phases")` — phase classification (upstream)
+- `vignette("v07-st-dbscan-nesting")` — produces the input for INFI
 
 ``` r
 

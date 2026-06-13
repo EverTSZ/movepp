@@ -3,7 +3,7 @@
 GPS tracking data from one Black-tailed Godwit (*Limosa limosa*)
 individual, covering two full migration cycles between the wintering
 grounds in coastal Southeast Asia and the breeding grounds in Far East
-Siberia. Used as a worked example in the package vignettes and as a
+Siberia. Used as a worked example in the package articles and as a
 reproducibility check against the companion manuscript:
 
 ## Usage

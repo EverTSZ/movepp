@@ -219,7 +219,6 @@ table(phs$phase_manual)
 
 ## See also
 
-- [`vignette("v03-dbscan-habitats")`](https://EverTSZ.github.io/movepp/articles/v03-dbscan-habitats.md)
-  – upstream habitat delineation
-- [`vignette("v06-isfi")`](https://EverTSZ.github.io/movepp/articles/v06-isfi.md)
-  – using phase labels for stratified site fidelity \`\`\`
+- `vignette("v03-dbscan-habitats")` – upstream habitat delineation
+- `vignette("v06-isfi")` – using phase labels for stratified site
+  fidelity \`\`\`

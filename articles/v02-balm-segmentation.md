@@ -166,10 +166,9 @@ direction is required.
 
 ## See also
 
-- [`vignette("v01-data-overview")`](https://EverTSZ.github.io/movepp/articles/v01-data-overview.md)
-  – full workflow
-- [`vignette("v03-dbscan-habitats")`](https://EverTSZ.github.io/movepp/articles/v03-dbscan-habitats.md)
-  – downstream clustering of LL/LH points
+- `vignette("v01-data-overview")` – full workflow
+- `vignette("v03-dbscan-habitats")` – downstream clustering of LL/LH
+  points
 
 ## Session info
 

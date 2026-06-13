@@ -45,8 +45,8 @@ nest detection via stratified spatiotemporal DBSCAN
 and the multi-year Individual Site Fidelity Index
 ([`compute_isfi()`](https://EverTSZ.github.io/movepp/reference/compute_isfi.md)).
 
-Use `vignette(package = "movepp")` to browse the worked examples that
-reproduce each figure of the accompanying paper.
+Worked articles reproducing each figure of the accompanying paper are on
+the package website (<https://EverTSZ.github.io/movepp/articles/>).
 
 ## See also
 

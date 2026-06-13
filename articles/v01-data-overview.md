@@ -157,8 +157,7 @@ scatterplot quadrant: `HH` (migration), `LL` (stationary core), `HL`
 (within-site burst), `LH` (transient touch-down in the corridor). The
 high/low split is anchored to the data-driven flight-onset speed `c`
 (stored in the `balm_reference` attribute), not the arithmetic mean —
-see
-[`vignette("v02-balm-segmentation")`](https://EverTSZ.github.io/movepp/articles/v02-balm-segmentation.md).
+see `vignette("v02-balm-segmentation")`.
 
 ``` r
 
@@ -190,8 +189,7 @@ derived from the data by
 — `eps` is the within-site movement radius and `minPts` the
 minimum-residence floor — never hard-coded. The full derivation (with
 the within-site/flight step-distance split and the habitat-count knee)
-is in
-[`vignette("v03-dbscan-habitats")`](https://EverTSZ.github.io/movepp/articles/v03-dbscan-habitats.md).
+is in `vignette("v03-dbscan-habitats")`.
 
 ``` r
 
@@ -226,8 +224,7 @@ then scores each habitat on a data-driven Migration Phase Index in \[0,
 [`classify_phases()`](https://EverTSZ.github.io/movepp/reference/classify_phases.md)
 cuts the MPI distribution at its density valleys, ordering phases by
 ascending mean MPI. Details, including the peak-anchored cut points, are
-in
-[`vignette("v04-mpi-phases")`](https://EverTSZ.github.io/movepp/articles/v04-mpi-phases.md).
+in `vignette("v04-mpi-phases")`.
 
 ``` r
 
@@ -336,16 +333,12 @@ full reproductions on the complete datasets.
 
 For deeper treatment of each step:
 
-- [`vignette("v02-balm-segmentation")`](https://EverTSZ.github.io/movepp/articles/v02-balm-segmentation.md)
-  — BALM movement-state segmentation
-- [`vignette("v03-dbscan-habitats")`](https://EverTSZ.github.io/movepp/articles/v03-dbscan-habitats.md)
-  — DBSCAN habitat delineation, with the data-driven `eps` / `minPts`
-  derivation
-- [`vignette("v04-mpi-phases")`](https://EverTSZ.github.io/movepp/articles/v04-mpi-phases.md)
-  — MPI phase classification and the peak-anchored density-valley cuts
-- [`vignette("v05-circadian")`](https://EverTSZ.github.io/movepp/articles/v05-circadian.md)
-  — solar-elevation diel typing of the Bohai Bay stopover habitats
-- [`vignette("v06-isfi")`](https://EverTSZ.github.io/movepp/articles/v06-isfi.md)
-  — Inter-annual site fidelity
-- [`vignette("v07-st-dbscan-nesting")`](https://EverTSZ.github.io/movepp/articles/v07-st-dbscan-nesting.md)
-  — Three-tier nest detection
+- `vignette("v02-balm-segmentation")` — BALM movement-state segmentation
+- `vignette("v03-dbscan-habitats")` — DBSCAN habitat delineation, with
+  the data-driven `eps` / `minPts` derivation
+- `vignette("v04-mpi-phases")` — MPI phase classification and the
+  peak-anchored density-valley cuts
+- `vignette("v05-circadian")` — solar-elevation diel typing of the Bohai
+  Bay stopover habitats
+- `vignette("v06-isfi")` — Inter-annual site fidelity
+- `vignette("v07-st-dbscan-nesting")` — Three-tier nest detection

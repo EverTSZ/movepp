@@ -237,10 +237,8 @@ A side-by-side accuracy comparison on labelled data is provided in the
 
 ## See also
 
-- [`vignette("v04-mpi-phases")`](https://EverTSZ.github.io/movepp/articles/v04-mpi-phases.md)
-  — produces the phase labels (upstream)
-- [`vignette("v06-isfi")`](https://EverTSZ.github.io/movepp/articles/v06-isfi.md)
-  — uses the `nests` output to compute INFI
+- `vignette("v04-mpi-phases")` — produces the phase labels (upstream)
+- `vignette("v06-isfi")` — uses the `nests` output to compute INFI
 
 ``` r
 
