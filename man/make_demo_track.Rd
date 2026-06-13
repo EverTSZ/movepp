@@ -42,7 +42,7 @@ Per individual, the breakdown is roughly:
 \item 30\% of points: migration trail connecting the two sites
 (high-speed, spatially spread).
 }
-Used in examples, vignettes, and unit tests.
+Used in examples, website articles, and unit tests.
 }
 \examples{
 demo <- make_demo_track()

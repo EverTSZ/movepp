@@ -33,8 +33,9 @@
 #' spatiotemporal DBSCAN ([detect_nests()]), and the multi-year Individual
 #' Site Fidelity Index ([compute_isfi()]).
 #'
-#' Use `vignette(package = "movepp")` to browse the worked examples that
-#' reproduce each figure of the accompanying paper.
+#' Worked articles reproducing each figure of the accompanying paper are
+#' on the package website
+#' (\url{https://EverTSZ.github.io/movepp/articles/}).
 #'
 #' @keywords internal
 "_PACKAGE"

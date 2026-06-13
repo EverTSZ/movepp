@@ -1,5 +1,18 @@
 # movepp (development version)
 
+* The seven worked tutorials are now **pkgdown articles**
+  (`vignettes/articles/`) rather than built package vignettes. They
+  download basemaps (`rnaturalearth`) and use a GitHub-only dependency
+  (`nestR`), so they cannot be rebuilt on a clean machine without
+  internet; as articles they are rendered only for the package website
+  (<https://EverTSZ.github.io/movepp/articles/>), keeping `R CMD check`
+  self-contained. `VignetteBuilder` is dropped accordingly.
+* Documentation now follows the manuscript's pipeline framing (from
+  fixes to movement states, to functional places, to reading time-marks
+  back onto places) instead of a macro/meso/micro split, and the
+  companion ArcGIS Pro toolbox is named *Animal Movement Point-Pattern
+  Analysis*.
+
 ## movepp 0.1.4
 
 * New `classify_habitat_circadian()` aggregates the per-fix diel labels

@@ -40,8 +40,9 @@ timescales: diel-activity type from solar elevation
 spatiotemporal DBSCAN (\code{\link[=detect_nests]{detect_nests()}}), and the multi-year Individual
 Site Fidelity Index (\code{\link[=compute_isfi]{compute_isfi()}}).
 
-Use \code{vignette(package = "movepp")} to browse the worked examples that
-reproduce each figure of the accompanying paper.
+Worked articles reproducing each figure of the accompanying paper are
+on the package website
+(\url{https://EverTSZ.github.io/movepp/articles/}).
 }
 \seealso{
 Useful links:

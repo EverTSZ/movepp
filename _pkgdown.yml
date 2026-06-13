@@ -10,7 +10,7 @@ home:
 navbar:
   type: default
   left:
-    - text: "Vignettes"
+    - text: "Articles"
       menu:
         - text: "01 - Data overview"
           href: articles/v01-data-overview.html

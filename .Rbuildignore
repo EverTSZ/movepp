@@ -17,6 +17,7 @@
 ^\.claude$
 ^\.RDataTmp$
 ^vignettes/\.quarto$
+^vignettes/articles$
 ^doc$
 ^Meta$
 ^\.RData$
