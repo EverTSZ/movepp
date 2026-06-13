@@ -1,0 +1,5 @@
+# Normalise line endings to LF in the repository (R CMD check and CRAN
+# expect LF in source files). Binary data files are left untouched.
+* text=auto eol=lf
+*.rda binary
+*.RData binary
