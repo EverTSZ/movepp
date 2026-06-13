@@ -67,14 +67,18 @@ table(phs$phase)
 
 ## Workflow overview
 
-`movepp` decomposes movement analysis into three nested scales, each
-backed by a Quarto vignette (`browseVignettes("movepp")`):
+`movepp` reads tracking data in the **Eulerian frame**: geographic
+position is the analytical primitive and time enters as a *mark* on the
+resulting spatial point pattern. The workflow runs as a single pipeline
+— from raw fixes, to movement states, to functional places, and finally
+reading the time-marks back onto those places — with each stage backed
+by a Quarto vignette (`browseVignettes("movepp")`):
 
-| Scale | Function family | Purpose |
-|-------|-----------------|---------|
-| **Macro** | `compute_step_speed()`, `balm_segmentation()` | Derive a device-agnostic movement rate, then split migratory from stationary fixes with BALM (a behaviorally-anchored Local Moran) |
-| **Meso** | `detect_habitat_params()`, `dbscan_habitats()`, `detect_dominant_axis()`, `compute_mpi()`, `classify_phases()`, `annotate_phases()` | Delineate temporary habitats and assign wintering / stopover / breeding phases |
-| **Micro** | `detect_nests()`, `compute_isfi()`, `classify_circadian()` | Detect nesting events, quantify site fidelity, and resolve circadian rhythm |
+| Stage | Functions | What it does |
+|-------|-----------|--------------|
+| **From fixes to movement states** | `compute_step_speed()`, `balm_segmentation()` | Derive a device-agnostic movement rate, then label each fix migratory (`HH`), stationary (`LL`), or transitional (`HL`/`LH`) with BALM |
+| **From movement states to functional places** | `detect_habitat_params()`, `dbscan_habitats()`, `detect_dominant_axis()`, `compute_mpi()`, `classify_phases()`, `annotate_phases()` | Delineate temporary habitats from the stationary (`LL`) fixes with DBSCAN, then assign each habitat a migration phase (wintering / stopover / breeding) via the Migration Phase Index |
+| **Reading marks back onto places** | `compute_solar_elevation()`, `classify_circadian()`, `classify_habitat_circadian()`, `detect_nests()`, `compute_isfi()` | With places labelled by phase, read the time-of-day, day-of-year, and year marks back at nested timescales: diel activity type, ST-DBSCAN nest detection, and the multi-year Individual Site Fidelity Index |
 
 
 ## Two kinds of stopover
@@ -90,8 +94,9 @@ the transient points do not bias the fitted phase components.
 
 ## Relation to the ArcGIS Pro toolbox
 
-This R package is a sister implementation to the **Analysis Toolbox 1.2**
-distributed for ArcGIS Pro. Where the toolbox classified movement states
+This R package is a sister implementation to the **Animal Movement
+Point-Pattern Analysis** toolbox distributed for ArcGIS Pro. Where the
+toolbox classified movement states
 with Anselin's Local Moran's I (the ArcGIS *Cluster and Outlier Analysis*
 tool), `movepp` uses **BALM** (`balm_segmentation()`), a movement-adapted
 variant of the Local Moran scatterplot. BALM anchors the high/low reference

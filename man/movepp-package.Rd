@@ -12,28 +12,33 @@ toolbox by providing an open-source, scriptable, and fully reproducible
 alternative.
 }
 \details{
-The workflow is organised across three nested analytical scales:
+The package reads tracking data in the \strong{Eulerian frame}: geographic
+position is the analytical primitive and time enters as a \emph{mark} on the
+resulting spatial point pattern. The workflow runs as a single
+pipeline:
 
-\strong{Macro scale — migration / stationary segmentation.} A device-agnostic
-movement rate (\code{\link[=compute_step_speed]{compute_step_speed()}}) feeds the Behaviorally-Anchored
-Local Moran (\code{\link[=balm_segmentation]{balm_segmentation()}}), which labels each fix migratory
-(\code{HH}), stationary (\code{LL}), or transitional (\code{HL}/\code{LH}) by its
-Moran-scatterplot quadrant, anchored to a data-driven flight-onset
-threshold.
+\strong{From fixes to movement states.} A device-agnostic movement rate
+(\code{\link[=compute_step_speed]{compute_step_speed()}}) feeds the Behaviorally-Anchored Local Moran
+(\code{\link[=balm_segmentation]{balm_segmentation()}}), which labels each fix migratory (\code{HH}),
+stationary (\code{LL}), or transitional (\code{HL}/\code{LH}) by its Moran-scatterplot
+quadrant, anchored to a data-driven flight-onset threshold.
 
-\strong{Meso scale — temporary habitat delineation and phase classification.}
-Stationary points are clustered into spatially bounded temporary
-habitats with DBSCAN at a data-derived scale
-(\code{\link[=detect_habitat_params]{detect_habitat_params()}}, \code{\link[=dbscan_habitats]{dbscan_habitats()}}); each habitat is then
-assigned to a wintering, stopover, or breeding phase via the Migration
-Phase Index (\code{\link[=compute_mpi]{compute_mpi()}}) and density-valley phase classification
-(\code{\link[=classify_phases]{classify_phases()}}).
+\strong{From movement states to functional places.} The stationary (\code{LL})
+fixes are clustered into spatially bounded temporary habitats with
+DBSCAN at a data-derived scale (\code{\link[=detect_habitat_params]{detect_habitat_params()}},
+\code{\link[=dbscan_habitats]{dbscan_habitats()}}); each habitat is then assigned to a wintering,
+stopover, or breeding phase via the Migration Phase Index
+(\code{\link[=compute_mpi]{compute_mpi()}}, \code{\link[=detect_dominant_axis]{detect_dominant_axis()}}) and density-valley phase
+classification (\code{\link[=classify_phases]{classify_phases()}}), with \code{\link[=annotate_phases]{annotate_phases()}} as an
+interactive behaviour-barcode correction channel.
 
-\strong{Micro scale — fine behavioural patterns.} Modules for nest detection
-(stratified spatiotemporal DBSCAN, \code{\link[=detect_nests]{detect_nests()}}), inter-annual site
-fidelity (\code{\link[=compute_isfi]{compute_isfi()}}), and circadian rhythm classification from
-solar elevation (\code{\link[=classify_circadian]{classify_circadian()}}) operate on the habitat
-assignments produced upstream.
+\strong{Reading marks back onto places.} With habitats labelled by phase,
+the time-of-day, day-of-year, and year marks are read back at nested
+timescales: diel-activity type from solar elevation
+(\code{\link[=compute_solar_elevation]{compute_solar_elevation()}}, \code{\link[=classify_circadian]{classify_circadian()}},
+\code{\link[=classify_habitat_circadian]{classify_habitat_circadian()}}), nest detection via stratified
+spatiotemporal DBSCAN (\code{\link[=detect_nests]{detect_nests()}}), and the multi-year Individual
+Site Fidelity Index (\code{\link[=compute_isfi]{compute_isfi()}}).
 
 Use \code{vignette(package = "movepp")} to browse the worked examples that
 reproduce each figure of the accompanying paper.

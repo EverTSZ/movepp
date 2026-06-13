@@ -5,28 +5,33 @@
 #' toolbox by providing an open-source, scriptable, and fully reproducible
 #' alternative.
 #'
-#' The workflow is organised across three nested analytical scales:
+#' The package reads tracking data in the **Eulerian frame**: geographic
+#' position is the analytical primitive and time enters as a *mark* on the
+#' resulting spatial point pattern. The workflow runs as a single
+#' pipeline:
 #'
-#' **Macro scale — migration / stationary segmentation.** A device-agnostic
-#' movement rate ([compute_step_speed()]) feeds the Behaviorally-Anchored
-#' Local Moran ([balm_segmentation()]), which labels each fix migratory
-#' (`HH`), stationary (`LL`), or transitional (`HL`/`LH`) by its
-#' Moran-scatterplot quadrant, anchored to a data-driven flight-onset
-#' threshold.
+#' **From fixes to movement states.** A device-agnostic movement rate
+#' ([compute_step_speed()]) feeds the Behaviorally-Anchored Local Moran
+#' ([balm_segmentation()]), which labels each fix migratory (`HH`),
+#' stationary (`LL`), or transitional (`HL`/`LH`) by its Moran-scatterplot
+#' quadrant, anchored to a data-driven flight-onset threshold.
 #'
-#' **Meso scale — temporary habitat delineation and phase classification.**
-#' Stationary points are clustered into spatially bounded temporary
-#' habitats with DBSCAN at a data-derived scale
-#' ([detect_habitat_params()], [dbscan_habitats()]); each habitat is then
-#' assigned to a wintering, stopover, or breeding phase via the Migration
-#' Phase Index ([compute_mpi()]) and density-valley phase classification
-#' ([classify_phases()]).
+#' **From movement states to functional places.** The stationary (`LL`)
+#' fixes are clustered into spatially bounded temporary habitats with
+#' DBSCAN at a data-derived scale ([detect_habitat_params()],
+#' [dbscan_habitats()]); each habitat is then assigned to a wintering,
+#' stopover, or breeding phase via the Migration Phase Index
+#' ([compute_mpi()], [detect_dominant_axis()]) and density-valley phase
+#' classification ([classify_phases()]), with [annotate_phases()] as an
+#' interactive behaviour-barcode correction channel.
 #'
-#' **Micro scale — fine behavioural patterns.** Modules for nest detection
-#' (stratified spatiotemporal DBSCAN, [detect_nests()]), inter-annual site
-#' fidelity ([compute_isfi()]), and circadian rhythm classification from
-#' solar elevation ([classify_circadian()]) operate on the habitat
-#' assignments produced upstream.
+#' **Reading marks back onto places.** With habitats labelled by phase,
+#' the time-of-day, day-of-year, and year marks are read back at nested
+#' timescales: diel-activity type from solar elevation
+#' ([compute_solar_elevation()], [classify_circadian()],
+#' [classify_habitat_circadian()]), nest detection via stratified
+#' spatiotemporal DBSCAN ([detect_nests()]), and the multi-year Individual
+#' Site Fidelity Index ([compute_isfi()]).
 #'
 #' Use `vignette(package = "movepp")` to browse the worked examples that
 #' reproduce each figure of the accompanying paper.

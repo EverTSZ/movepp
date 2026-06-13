@@ -35,14 +35,14 @@ navbar:
       href: https://github.com/EverTSZ/movepp
 
 reference:
-  - title: "Macro scale: movement rate and segmentation"
+  - title: "From fixes to movement states"
     desc: "Derive a movement rate, then segment migratory vs stationary fixes."
     contents:
       - compute_step_speed
       - balm_segmentation
 
-  - title: "Meso scale: temporary habitats and phases"
-    desc: "Delineate habitats and classify wintering, stopover, breeding."
+  - title: "From movement states to functional places"
+    desc: "Delineate temporary habitats and assign wintering, stopover, breeding phases."
     contents:
       - detect_habitat_params
       - dbscan_habitats
@@ -51,8 +51,8 @@ reference:
       - classify_phases
       - annotate_phases
 
-  - title: "Micro scale: fine behavioural patterns"
-    desc: "Nesting events, site fidelity, circadian rhythm."
+  - title: "Reading marks back onto places"
+    desc: "Read time-of-day, day-of-year, and year marks back at nested timescales: diel activity, nesting, site fidelity."
     contents:
       - detect_nests
       - compute_isfi
