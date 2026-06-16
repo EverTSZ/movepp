@@ -25,7 +25,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/EverTSZ/movepp/blob/main/inst/CITATION)
+[`inst/CITATION`](https://github.com/EverTSZ/movepp/blob/v0.1.4/inst/CITATION)
 
 Xiao H, Ichinose T, Peng H, Zhang Z, Chen D, Lei W, Wu Y, Zhu B,
 Miyamoto Y, Li D (2026). *movepp: Movement Point-Pattern Analysis for
