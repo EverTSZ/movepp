@@ -13,7 +13,7 @@ and fully reproducible alternative.
 The package operationalises the methods described in:
 
 > Xiao H., Peng H., Zhang Z., et al. (in revision). *From Movement to
-> Meaning: Spatial Statistics Uncover Hidden Patterns in Tracking Data.*
+> Meaning: Spatial Statistics Uncover Hidden Patterns in Avian Tracking Data.*
 > Movement Ecology.
 
 ## Installation
